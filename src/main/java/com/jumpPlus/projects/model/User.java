@@ -26,7 +26,7 @@ public class User implements Serializable {
 	private Integer Id;
 	
 	@NotBlank
-	private String username;
+	private String name;
 	
 	@Pattern(regexp = "^(.+)@(\\S+) $")
 	@Column(unique = true, nullable = false)
@@ -45,23 +45,23 @@ public class User implements Serializable {
 		
 	}
 
-	public User(Integer id, @NotBlank String username, @Pattern(regexp = "^(.+)@(\\S+) $") String email,
+	public User(Integer id, @NotBlank String name, @Pattern(regexp = "^(.+)@(\\S+) $") String email,
 			String password, List<Rating> movieRatings) {
 		super();
 		Id = id;
-		this.username = username;
+		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.movieRatings = movieRatings;
 	}
 
 	
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -92,9 +92,13 @@ public class User implements Serializable {
 		return Id;
 	}
 
+	public void setId(Integer id) {
+		Id = id;
+	}
+
 	@Override
 	public String toString() {
-		return "User [Id=" + Id + ", username=" + username + ", email=" + email + ", password=" + password
+		return "User [Id=" + Id + ", name=" + name + ", email=" + email + ", password=" + password
 				+ ", movieRatings=" + movieRatings + "]";
 	}
 	

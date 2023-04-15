@@ -39,6 +39,9 @@ public class UserService {
 			System.out.println("User already exists");
 		}
 		
+		// set user's id to null, will be auto incremented
+		user.setId(null);
+		
 		// create user if they don't already exist
 		return repo.save(user);
 	}
