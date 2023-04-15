@@ -17,16 +17,15 @@ public class UserService {
 	// get user
 	public User getUserById(int id) {
 		// find user by id
-		Optional<User> foundUser = repo.findById(id);
+		Optional<User> user = repo.findById(id);
 		
 		// if no user is found with that id throw exception
-		if(!foundUser.isPresent()) {
-			// CREATE CUSTOM EXCEPTION
-			System.out.println("no user");
+		if(!user.isPresent()) {
+			System.out.println("User does not exist.");
 		}
 		
 		// return user if found
-		return foundUser.get();
+		return user.get();
 	}
 	
 	
@@ -37,8 +36,7 @@ public class UserService {
 		
 		// throw exception if that user/email already exists
 		if(userExists.isPresent()) {
-			// CREATE CUSTOM EXCEPTION
-			System.out.println("user already exists");
+			System.out.println("User already exists");
 		}
 		
 		// create user if they don't already exist
@@ -53,7 +51,6 @@ public class UserService {
 		
 		// if user w/ email doesn't exist or entered password does not match found user throw exception
 		if(!loggingInUser.isPresent() || !loggingInUser.get().getPassword().equals(password)) {
-			// CREATE CUSTOM EXCEPTION
 			System.out.println("Unsuccessful login attempt");
 			
 		}
