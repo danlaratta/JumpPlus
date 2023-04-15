@@ -12,37 +12,55 @@ import com.jumpPlus.projects.repository.UserRepository;
 public class UserService {
 	
 	@Autowired
-	UserRepository repo;
+	private UserRepository repo;
 
-	// GET user
+	// get user
 	public User getUserById(int id) {
-		
+		// find user by id
 		Optional<User> foundUser = repo.findById(id);
 		
+		// if no user is found with that id throw exception
 		if(!foundUser.isPresent()) {
 			// CREATE CUSTOM EXCEPTION
 			System.out.println("no user");
 		}
 		
+		// return user if found
 		return foundUser.get();
 	}
 	
 	
-	// CREATE user
-	public User createUser(User user) {
-		
+	// register (create) user
+	public User registerUser(User user) {
+		// find user by email
 		Optional<User> userExists = repo.findByEmail(user.getEmail());
 		
+		// throw exception if that user/email already exists
 		if(userExists.isPresent()) {
 			// CREATE CUSTOM EXCEPTION
 			System.out.println("user already exists");
 		}
 		
+		// create user if they don't already exist
 		return repo.save(user);
 	}
 	
 	
-	
-	
+	// login user
+	public Optional<User> loginUser(String email, String password) {
+		// find user by email
+		Optional<User> loggingInUser = repo.findByEmail(email);
+		
+		// if user w/ email doesn't exist or entered password does not match found user throw exception
+		if(!loggingInUser.isPresent() || !loggingInUser.get().getPassword().equals(password)) {
+			// CREATE CUSTOM EXCEPTION
+			System.out.println("Unsuccessful login attempt");
+			
+		}
+		
+		// return logged in user
+		return loggingInUser;
+		
+	}
 	
 }
