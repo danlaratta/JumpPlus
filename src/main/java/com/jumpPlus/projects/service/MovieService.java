@@ -33,7 +33,18 @@ public class MovieService {
 		return movie.get();
 	}
 	
-//	public List<Object[]> getMoviesWithRatings() {
-//		return repo.getMoviesAndRatings();
-//	}
+	// get movies
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

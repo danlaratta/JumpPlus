@@ -49,11 +49,14 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 				System.out.println("2.) Register");
 				System.out.println("3.) View Movies");
 				System.out.println("4.) Exit");
+				
 			}
 			else {
 				System.out.println("\n**********************");
 				System.out.println("   User's Ratings   ");
 				System.out.println("**********************");
+				
+				System.out.printf("\n%1s %8s %8s","Movie", "Rating", "Total Ratings" );
 			}
 			
 			String menuOption = scan.nextLine();
@@ -109,12 +112,6 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 	
 	public List<Movie> viewMovies() {
 		System.out.println("***************" + "\n     Movies     " + "\n***************");
-		
-//		List<Movie> movies = movieService.getMovies();
-//		
-//		for(Movie m : movies) {
-//			System.out.println(m);
-//		}
 		
 		List<Movie> movies = repo.getAllMovies();
 		

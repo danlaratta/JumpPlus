@@ -1,6 +1,7 @@
 package com.jumpPlus.projects.model;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -45,6 +46,7 @@ public class Rating implements Serializable {
 		this.movie = movie;
 	}
 
+
 	public Integer getRating() {
 		return rating;
 	}
@@ -53,9 +55,9 @@ public class Rating implements Serializable {
 		this.rating = rating;
 	}
 
-	public User getUser() {
-		return user;
-	}
+	public Optional<User> getUser() {
+        return Optional.ofNullable(user);
+    }
 
 	public void setUser(User user) {
 		this.user = user;
