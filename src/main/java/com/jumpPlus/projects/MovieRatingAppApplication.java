@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jumpPlus.projects.model.Movie;
 import com.jumpPlus.projects.model.User;
+import com.jumpPlus.projects.repository.MovieRepository;
 import com.jumpPlus.projects.service.MovieService;
 import com.jumpPlus.projects.service.UserService;
 
@@ -28,7 +29,7 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 	UserService service;
 	
 	@Autowired
-	MovieService movieService;
+	MovieRepository repo;
 	
 	Scanner scan = new Scanner(System.in);
 	
@@ -50,7 +51,9 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 				System.out.println("4.) Exit");
 			}
 			else {
-				System.out.println("User is logged in");
+				System.out.println("\n**********************");
+				System.out.println("   User's Ratings   ");
+				System.out.println("**********************");
 			}
 			
 			String menuOption = scan.nextLine();
@@ -104,10 +107,22 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		loggedIn = service.loginUser(email, password);
 	}
 	
-	public void viewMovies() {
+	public List<Movie> viewMovies() {
 		System.out.println("***************" + "\n     Movies     " + "\n***************");
 		
-		System.out.println(movieService.getMovies());
+//		List<Movie> movies = movieService.getMovies();
+//		
+//		for(Movie m : movies) {
+//			System.out.println(m);
+//		}
+		
+		List<Movie> movies = repo.getAllMovies();
+		
+	    for (Movie movie : movies) {
+	        System.out.println(movie.getTitle());
+	    }
+	    
+	    return movies;
 	}
 	
 	

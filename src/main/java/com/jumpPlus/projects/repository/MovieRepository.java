@@ -11,8 +11,10 @@ import com.jumpPlus.projects.model.Movie;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	
+	// get all movies
 	@Query("SELECT m FROM Movie m")
 	List<Movie> getAllMovies();
+	
 	
 //	@Query("SELECT m.title, r.rating FROM movie m JOIN rating r ON m.id = r.movie_id")
 //	List<Object[]> getMoviesAndRatings();
