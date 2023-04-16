@@ -28,7 +28,7 @@ public class User implements Serializable {
 	@NotBlank
 	private String name;
 	
-	@Pattern(regexp = "^(.+)@(\\S+) $")
+	@Pattern(regexp = "^.+@.+$") 
 	@Column(unique = true, nullable = false)
 	private String email;
 	

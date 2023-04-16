@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.jumpPlus.projects.model.Movie;
@@ -18,7 +17,7 @@ public class MovieService {
 	
 	// get all movies
 	public List<Movie> getMovies() {
-		return repo.findAll();
+		return repo.getAllMovies();
 	}
  	
 	// get movie by id
@@ -34,5 +33,7 @@ public class MovieService {
 		return movie.get();
 	}
 	
-	
+//	public List<Object[]> getMoviesWithRatings() {
+//		return repo.getMoviesAndRatings();
+//	}
 }

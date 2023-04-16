@@ -1,5 +1,6 @@
 package com.jumpPlus.projects.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,11 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository repo;
+	
+	// get all users
+	public List<User> getUsers() {
+		return repo.findAll();
+	}
 
 	// get user
 	public User getUserById(int id) {
@@ -48,18 +54,18 @@ public class UserService {
 	
 	
 	// login user
-	public Optional<User> loginUser(String email, String password) {
+	public boolean loginUser(String email, String password) {
 		// find user by email
 		Optional<User> loggingInUser = repo.findByEmail(email);
 		
 		// if user w/ email doesn't exist or entered password does not match found user throw exception
 		if(!loggingInUser.isPresent() || !loggingInUser.get().getPassword().equals(password)) {
 			System.out.println("Unsuccessful login attempt");
-			
+			return false;
 		}
 		
 		// return logged in user
-		return loggingInUser;
+		return true;
 		
 	}
 	

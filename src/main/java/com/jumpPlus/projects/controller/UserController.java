@@ -1,6 +1,6 @@
 package com.jumpPlus.projects.controller;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,11 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+	@GetMapping("/users")
+	public List<User> getAllUsers() {
+		return service.getUsers();	
+	}
+	
 	@GetMapping("/user/{id}")
 	public ResponseEntity<?> getUser(@PathVariable int id) {
 		User user = service.getUserById(id);
@@ -33,16 +38,16 @@ public class UserController {
 	
 	@PostMapping("/user/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
-		User registeredUser = service.registerUser(user);
+		service.registerUser(user);
 		
-		return ResponseEntity.status(201).body(registeredUser);
+		return ResponseEntity.status(201).body("User Registered Successfully");
 	}
 	
 	@PostMapping("user/login")
-	public ResponseEntity<?> loginUser(@Valid @RequestParam("email") String email, @RequestParam("password") String password) {
-		Optional<User> loggedInUser = service.loginUser(email, password);
+	public String loginUser(@Valid @RequestParam("email") String email, @RequestParam("password") String password) {
+		service.loginUser(email, password);
 		
-		return ResponseEntity.status(200).body(loggedInUser);
+		return "User Logged In Successfully";
 		
 	}
 	
