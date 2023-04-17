@@ -216,6 +216,7 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		switch(ratingOption) {
 		case "0", "1", "2", "3", "4", "5": 
 			rService.rateMovie(rating, currentUser, movie);
+			System.out.println("movie rated");
 			break;
 		case "6":
 			appRunning = false;
