@@ -56,7 +56,9 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 				System.out.println("   User's Ratings   ");
 				System.out.println("**********************");
 				
-				System.out.printf("\n%1s %8s %8s","Movie", "Rating", "Total Ratings" );
+				System.out.printf("%-32s %-26s %-32s","Movie", "Rating", "Total Ratings" );
+				System.out.println();
+				getMovieRatings();
 			}
 			
 			String menuOption = scan.nextLine();
@@ -122,8 +124,30 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 	    return movies;
 	}
 	
+	public List<Object[]> getMovieRatings() {
+		List<Object[]> movieRatings = repo.getMovieDetails();
+		
+		int count = 0;
+		
+		for (Object[] m : movieRatings) {
+	        Movie movie = (Movie) m[0];
+	        Double avgRating = (Double) m[1];
+	        Long totalRatings = (Long) m[2];
+	        
+	        count += 1;
+	        
+	        System.out.printf(count + ".) %-30s %-30s %-30s", movie.getTitle(), avgRating, totalRatings);
+	        System.out.println();
+	    }
+		
+		System.out.println("5.) Exit");
+		
+		return movieRatings;
+	}
+	
 	
 }
+
 
 
 
