@@ -16,9 +16,9 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 	List<Movie> getAllMovies();
 	
 	
-//	@Query("SELECT m.title, r.rating FROM movie m JOIN rating r ON m.id = r.movie_id")
-//	List<Object[]> getMoviesAndRatings();
-//	
+	// select movie, aggregate avg rating for movie, and total ratings for movie
+	@Query("SELECT m, AVG(r.rating), COUNT(r) FROM Movie m LEFT JOIN m.ratings r GROUP BY m.id")
+    List<Object[]> getMoviesWithAvgRatingAndTotalRatings();
 	
 	
 }
