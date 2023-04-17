@@ -9,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jumpPlus.projects.model.Movie;
+import com.jumpPlus.projects.model.Rating;
 import com.jumpPlus.projects.model.User;
 import com.jumpPlus.projects.repository.MovieRepository;
 import com.jumpPlus.projects.repository.UserRepository;
@@ -51,8 +52,10 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 	// tracks whether user is logged in
 	boolean loggedIn = false;
 	
-	// tracks currently logged in user
+	// tracks currently logged in user and their id
+	Optional<User> currentUser;
 	Integer currentUserId;
+	
 	
 	private void appRunner() {
 		while(appRunning) {
@@ -125,7 +128,10 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		String password = scan.nextLine();
 		
 		loggedIn = service.loginUser(email, password);
+		currentUser = userRepo.findByEmail(email);
 		currentUserId = userRepo.findByEmail(email).get().getId();
+		
+		
 	}
 	
 	public List<Movie> viewMovies() {
@@ -205,11 +211,11 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		System.out.println("\n6.) Exit");
 		
 		String ratingOption = scan.nextLine();
+		Integer rating = Integer.parseInt(ratingOption);
 		
 		switch(ratingOption) {
 		case "0", "1", "2", "3", "4", "5": 
-			rService.createRating(currentUserId, movieId, Integer.parseInt(ratingOption));
-			System.out.println("Movie Rated");
+			rService.rateMovie(rating, currentUser, movie);
 			break;
 		case "6":
 			appRunning = false;
@@ -218,12 +224,8 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 			System.out.println("Invalid Menu Option Selected.");
 			break;
 		}
-			
 	}
-	
-	
 }
-
 
 
 

@@ -8,9 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jumpPlus.projects.model.Movie;
 import com.jumpPlus.projects.model.Rating;
 import com.jumpPlus.projects.model.User;
-import com.jumpPlus.projects.repository.MovieRepository;
 import com.jumpPlus.projects.repository.RatingRepository;
-import com.jumpPlus.projects.repository.UserRepository;
 
 @Service
 public class RatingService {
@@ -19,30 +17,30 @@ public class RatingService {
 	RatingRepository repo;
 	
 	@Autowired
-	UserRepository uRepo;
+	UserService userService;
 	
 	@Autowired
-	MovieRepository mRepo;
+	MovieService movieService;
 
-	// create rating for movie by user
-	public Rating createRating(Integer userId, Integer movieId, Integer rated) {
-		// get user by id
-		Optional<User> user = uRepo.findById(userId);
+	
+	
+	public Rating rateMovie(Rating rating, User u, Movie m) {
+        User user = userService.getUserById(u.getId());
+        Movie movie = movieService.getMovieById(m.getId());
+        Rating existingRating = repo.findByUserAndMovie(user, movie);
+
+        if (existingRating != null) {
+        	System.out.println("This Movie Has Already Been Rated");
+        }
+        
+        return repo.save(rating);
+    }
+
+
+
+	public void rateMovie(Integer rating, Optional<User> currentUser, Optional<Movie> movie) {
+		// TODO Auto-generated method stub
 		
-		// get movie by id
-		Optional<Movie> movie = mRepo.findById(movieId);
-		
-		// creating rating
-		Rating rating = new Rating();
-		
-		// set user who's rating movie
-		 user.ifPresent(rating::setUser);
-		
-		// set movie being rated
-		 movie.ifPresent(rating::setMovie);
-		
-		// save rating
-		return repo.save(rating);
 	}
 	
 }
