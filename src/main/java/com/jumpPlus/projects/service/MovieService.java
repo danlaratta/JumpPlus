@@ -33,7 +33,8 @@ public class MovieService {
 		return movie.get();
 	}
 	
-	// get movies
+	// get movies and ratings details
+	
 }
 
 
