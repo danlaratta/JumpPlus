@@ -1,5 +1,6 @@
 package com.jumpPlus.projects;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.jumpPlus.projects.model.Movie;
 import com.jumpPlus.projects.model.User;
 import com.jumpPlus.projects.repository.MovieRepository;
+import com.jumpPlus.projects.repository.UserRepository;
 import com.jumpPlus.projects.service.MovieService;
+import com.jumpPlus.projects.service.RatingService;
 import com.jumpPlus.projects.service.UserService;
+
+import jakarta.persistence.Id;
 
 @SpringBootApplication
 public class MovieRatingAppApplication implements CommandLineRunner {
@@ -29,7 +34,14 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 	UserService service;
 	
 	@Autowired
+	UserRepository userRepo;
+	
+	@Autowired
 	MovieRepository repo;
+	
+	@Autowired
+	RatingService rService;
+	
 	
 	Scanner scan = new Scanner(System.in);
 	
@@ -38,6 +50,9 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 	
 	// tracks whether user is logged in
 	boolean loggedIn = false;
+	
+	// tracks currently logged in user
+	Integer currentUserId;
 	
 	private void appRunner() {
 		while(appRunning) {
@@ -110,6 +125,7 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		String password = scan.nextLine();
 		
 		loggedIn = service.loginUser(email, password);
+		currentUserId = userRepo.findByEmail(email).get().getId();
 	}
 	
 	public List<Movie> viewMovies() {
@@ -142,7 +158,67 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		
 		System.out.println("5.) Exit");
 		
+		String movieOption = scan.nextLine();
+		
+		switch(movieOption) {
+		case "1":
+			rateMovies(movieOption);
+			break;
+		case "2":
+			rateMovies(movieOption);
+			break;
+		case "3":
+			rateMovies(movieOption);
+			break;
+		case "4":
+			rateMovies(movieOption);
+			break;
+		case "5":
+			System.out.println("App Exited");
+			appRunning = false;
+			break;
+		default:
+			System.out.println("Invalid Menu Option Selected.");
+			break;
+		}
+
+		
 		return movieRatings;
+	}
+	
+	public void rateMovies(String movieOption) {
+		
+		Optional<Movie> movie = repo.findById(Integer.parseInt(movieOption));
+		Integer movieId = repo.findById(Integer.parseInt(movieOption)).get().getId();
+		
+		System.out.println();
+		System.out.println("*****************************" + "\n    Rate Movie: "   + movie.get().getTitle() + "\n*****************************");
+		
+		System.out.println();
+		
+		System.out.println("0.) Really Bad");
+		System.out.println("1.) Bad");
+		System.out.println("2.) Not Good");
+		System.out.println("3.) Okay");
+		System.out.println("4.) Good");
+		System.out.println("5.) Great");
+		System.out.println("\n6.) Exit");
+		
+		String ratingOption = scan.nextLine();
+		
+		switch(ratingOption) {
+		case "0", "1", "2", "3", "4", "5": 
+			rService.createRating(currentUserId, movieId, Integer.parseInt(ratingOption));
+			System.out.println("Movie Rated");
+			break;
+		case "6":
+			appRunning = false;
+			break;
+		default:
+			System.out.println("Invalid Menu Option Selected.");
+			break;
+		}
+			
 	}
 	
 	
