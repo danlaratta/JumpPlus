@@ -70,12 +70,6 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 				
 			}
 			else {
-				System.out.println("\n**********************");
-				System.out.println("   User's Ratings   ");
-				System.out.println("**********************");
-				
-				System.out.printf("%-32s %-26s %-32s","Movie", "Rating", "Total Ratings" );
-				System.out.println();
 				getMovieRatings();
 			}
 			
@@ -126,7 +120,7 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		
 		System.out.println("Enter Password: ");
 		String password = scan.nextLine();
-		
+				
 		loggedIn = service.loginUser(email, password);
 		currentUser = userRepo.findByEmail(email);
 		currentUserId = userRepo.findByEmail(email).get().getId();
@@ -147,6 +141,14 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 	}
 	
 	public List<Object[]> getMovieRatings() {
+		
+		System.out.println("\n**********************");
+		System.out.println("   Movie Ratings   ");
+		System.out.println("**********************");
+		
+		System.out.printf("%-32s %-26s %-32s","Movie", "Rating", "Total Ratings" );
+		System.out.println();
+		
 		List<Object[]> movieRatings = repo.getMovieDetails();
 		
 		int count = 0;
@@ -184,7 +186,8 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 			appRunning = false;
 			break;
 		default:
-			System.out.println("Invalid Menu Option Selected.");
+			System.out.println("Invalid Menu Option Selected.\n");
+			getMovieRatings();
 			break;
 		}
 
@@ -216,17 +219,19 @@ public class MovieRatingAppApplication implements CommandLineRunner {
 		switch(ratingOption) {
 		case "0", "1", "2", "3", "4", "5": 
 			rService.rateMovie(rating, currentUser, movie);
-			System.out.println("movie rated");
+			getMovieRatings();
 			break;
 		case "6":
 			appRunning = false;
 			break;
 		default:
 			System.out.println("Invalid Menu Option Selected.");
+			getMovieRatings();
 			break;
 		}
 	}
 }
+
 
 
 
